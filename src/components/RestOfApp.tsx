@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle2, Shield, ChevronDown, ChevronRight, ChevronLeft, Check } from 'lucide-react';
+import { CheckCircle2, Shield, ChevronDown, ChevronRight, ChevronLeft, Check, Sparkles, X, Flame } from 'lucide-react';
 import { config } from '../config';
 
 export function Testimonials() {
@@ -151,10 +151,29 @@ export function Bonuses() {
 }
 
 export function Pricing() {
+  const [upsellStep, setUpsellStep] = useState<1 | 2 | null>(null);
   const diff = config.premiumPrice - config.basicPrice;
 
+  const handleBasicClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setUpsellStep(1);
+  };
+
+  const closeUpsell = () => {
+    setUpsellStep(null);
+  };
+
+  const handleDeclineStep1 = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setUpsellStep(2);
+  };
+
+  const handleDeclineStep2 = () => {
+    window.location.href = config.basicCheckoutUrl;
+  };
+
   return (
-    <section id="pacotes" className="bg-[#F6F1E8] py-16 md:py-24 px-4 scroll-mt-10">
+    <section id="pacotes" className="bg-[#F6F1E8] py-16 md:py-24 px-4 scroll-mt-10 relative">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#20201E] mb-4">
@@ -185,7 +204,8 @@ export function Pricing() {
 
             <a
               href={config.basicCheckoutUrl}
-              className="bg-[#20201E] hover:bg-black transition-colors text-white font-bold py-3 px-4 rounded-xl text-center w-full mb-8"
+              onClick={handleBasicClick}
+              className="bg-[#20201E] hover:bg-black transition-colors text-white font-bold py-3 px-4 rounded-xl text-center w-full mb-8 cursor-pointer shadow-md active:scale-98"
             >
               QUERO O PACOTE BÁSICO
             </a>
@@ -262,6 +282,126 @@ export function Pricing() {
           <p className="text-xs text-[#222222]/60 mt-1 max-w-md mx-auto">Escolha a forma de pagamento disponível no checkout. O acesso é liberado após a confirmação.</p>
         </div>
       </div>
+
+      {/* Upsell / Downsell Modal Popup */}
+      {upsellStep !== null && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
+          <div className="bg-white text-[#20201E] w-full max-w-lg rounded-3xl shadow-2xl p-6 sm:p-8 relative overflow-hidden border-2 border-[#E87516] max-h-[90vh] overflow-y-auto">
+            
+            {/* Close Button */}
+            <button
+              onClick={closeUpsell}
+              className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors z-20"
+              aria-label="Fechar"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {upsellStep === 1 ? (
+              /* ETAPA 1: UPSELL DE MUDANÇA PARA PREMIUM R$ 27,99 */
+              <div className="text-center flex flex-col items-center">
+                <div className="w-14 h-14 bg-[#E87516]/10 rounded-full flex items-center justify-center mb-4">
+                  <Sparkles className="w-8 h-8 text-[#E87516]" />
+                </div>
+
+                <span className="bg-[#E87516] text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-widest py-1 px-3 rounded-full mb-3">
+                  🔥 ESPERE! OFERTA DE UPGRADE IMPERDÍVEL
+                </span>
+
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#20201E] mb-3 leading-tight">
+                  Por apenas <span className="text-[#E87516]">R$ 10,00 a mais</span> você leva o Pacote Completo!
+                </h3>
+
+                <p className="text-xs sm:text-sm text-[#222222]/80 mb-5 leading-relaxed">
+                  No pacote Básico você recebe apenas 32 modelos. Ao escolher o <strong>Premium</strong>, você garante <strong>120 modelos principais + 4 Bônus Exclusivos</strong> para o seu negócio!
+                </p>
+
+                {/* Caixa de Benefícios */}
+                <div className="w-full bg-[#F6F1E8] p-4 rounded-2xl border border-[#20201E]/10 mb-6 text-left space-y-2 text-xs sm:text-sm">
+                  <div className="font-bold text-[#20201E] pb-1 border-b border-[#20201E]/10 text-center">
+                    Tudo o que você leva no Premium por + R$ 10,00:
+                  </div>
+                  <div className="flex items-center text-[#20201E]">
+                    <Check className="w-4 h-4 text-[#E87516] mr-2 shrink-0" />
+                    <span><strong>120 Modelos Principais</strong> (vs 32 do Básico)</span>
+                  </div>
+                  <div className="flex items-center text-[#20201E]">
+                    <Check className="w-4 h-4 text-[#E87516] mr-2 shrink-0" />
+                    <span><strong>Bônus 1:</strong> 50 Legendas para suas postagens</span>
+                  </div>
+                  <div className="flex items-center text-[#20201E]">
+                    <Check className="w-4 h-4 text-[#E87516] mr-2 shrink-0" />
+                    <span><strong>Bônus 2:</strong> 30 Modelos de Stories</span>
+                  </div>
+                  <div className="flex items-center text-[#20201E]">
+                    <Check className="w-4 h-4 text-[#E87516] mr-2 shrink-0" />
+                    <span><strong>Bônus 3:</strong> 12 Modelos de Combos e Promoções</span>
+                  </div>
+                  <div className="flex items-center text-[#20201E]">
+                    <Check className="w-4 h-4 text-[#E87516] mr-2 shrink-0" />
+                    <span><strong>Bônus 4:</strong> Calendário de Conteúdo de 30 Dias</span>
+                  </div>
+                </div>
+
+                <a
+                  href={config.premiumCheckoutUrl}
+                  className="w-full bg-[#E87516] hover:bg-[#C95508] text-white font-extrabold text-sm sm:text-base py-4 px-6 rounded-xl shadow-lg shadow-[#E87516]/30 transition-all text-center mb-3"
+                >
+                  🔥 SIM! QUERO MUDAR PARA O PREMIUM POR R$ 27,99
+                </a>
+
+                <button
+                  onClick={handleDeclineStep1}
+                  className="text-xs text-gray-500 hover:text-gray-800 underline transition-colors pt-2 cursor-pointer"
+                >
+                  Não, obrigado. Não quero os 4 bônus e prefiro continuar...
+                </button>
+              </div>
+            ) : (
+              /* ETAPA 2: DOWNSELL DESCONTO PREMIUM R$ 19,99 */
+              <div className="text-center flex flex-col items-center">
+                <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mb-4">
+                  <Flame className="w-8 h-8 text-red-600 animate-pulse" />
+                </div>
+
+                <span className="bg-red-600 text-white text-[10px] sm:text-xs font-extrabold uppercase tracking-widest py-1 px-3 rounded-full mb-3">
+                  ⚡ ÚLTIMA CHANCE: DESCONTO EXCLUSIVO
+                </span>
+
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#20201E] mb-2 leading-tight">
+                  Leve o Pacote Premium por apenas <span className="text-red-600">R$ 19,99</span>!
+                </h3>
+
+                <p className="text-xs sm:text-sm text-[#222222]/80 mb-5 leading-relaxed">
+                  Não queremos que você fique sem os modelos e os bônus! Liberamos um <strong>desconto único</strong>: por apenas <strong>R$ 2,00 a mais</strong> que o Básico, você garante o <strong>Premium Completo (120 modelos + 4 Bônus)</strong>!
+                </p>
+
+                {/* Caixa de Preço Promocional */}
+                <div className="w-full bg-red-50 p-4 rounded-2xl border border-red-200 mb-6 text-center">
+                  <div className="text-xs text-gray-400 line-through">De R$ 27,99</div>
+                  <div className="text-3xl font-extrabold text-red-600">Por apenas R$ 19,99</div>
+                  <div className="text-xs font-semibold text-gray-700 mt-1">Economize R$ 8,00 e leve 120 modelos + 4 Bônus!</div>
+                </div>
+
+                <a
+                  href={config.premiumDiscountCheckoutUrl}
+                  className="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm sm:text-base py-4 px-6 rounded-xl shadow-lg shadow-red-600/30 transition-all text-center mb-3"
+                >
+                  🎉 QUERO O PREMIUM COM DESCONTO POR R$ 19,99
+                </a>
+
+                <button
+                  onClick={handleDeclineStep2}
+                  className="text-xs text-gray-500 hover:text-gray-800 underline transition-colors pt-2 cursor-pointer"
+                >
+                  Não aceitar o desconto. Quero apenas o Básico por R$ 17,99.
+                </button>
+              </div>
+            )}
+
+          </div>
+        </div>
+      )}
     </section>
   );
 }
