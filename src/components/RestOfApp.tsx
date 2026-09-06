@@ -1,13 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Shield, ChevronDown, ChevronRight, Check } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { CheckCircle2, Shield, ChevronDown, ChevronRight, ChevronLeft, Check } from 'lucide-react';
 import { config } from '../config';
+
+export function Testimonials() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const scrollAmount = direction === 'left' ? -280 : 280;
+      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="bg-[#20201E] text-[#F6F1E8] py-16 md:py-24 px-4 overflow-hidden border-t border-[#F6F1E8]/10">
+      <div className="max-w-6xl mx-auto text-center mb-10">
+        <span className="bg-[#E87516]/20 text-[#E87516] text-xs font-bold uppercase tracking-widest py-1.5 px-4 rounded-full mb-4 inline-block border border-[#E87516]/30">
+          Depoimentos de Clientes
+        </span>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 uppercase">
+          Quem usa, aprova e recomenda
+        </h2>
+        <p className="text-sm sm:text-lg text-[#F6F1E8]/80 max-w-2xl mx-auto">
+          Veja a opinião real de quem já adquiriu e transformou a apresentação do seu negócio.
+        </p>
+      </div>
+
+      <div className="max-w-6xl mx-auto relative">
+        {/* Controles de Navegação no Mobile */}
+        <div className="flex justify-between items-center mb-3 sm:hidden px-1">
+          <span className="text-xs font-semibold uppercase tracking-wider text-[#E87516]">
+            Deslize para ver mais
+          </span>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => handleScroll('left')}
+              className="bg-[#E87516] hover:bg-[#C95508] active:scale-95 text-white p-2 rounded-full shadow transition-all"
+              aria-label="Anterior"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => handleScroll('right')}
+              className="bg-[#E87516] hover:bg-[#C95508] active:scale-95 text-white p-2 rounded-full shadow transition-all"
+              aria-label="Próximo"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Carrossel no mobile / Grid no desktop */}
+        <div
+          ref={scrollRef}
+          className="flex overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-4 pb-4"
+        >
+          {config.images.testimonials.map((img, i) => (
+            <div
+              key={i}
+              className="w-[280px] xs:w-[300px] sm:w-auto shrink-0 snap-center rounded-2xl overflow-hidden bg-white/5 border border-[#F6F1E8]/10 hover:border-[#E87516]/50 transition-all shadow-xl"
+            >
+              <img
+                src={img}
+                alt={`Depoimento ${i + 1}`}
+                className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function Deliverables() {
   const items = [
-    { title: "50 artes para Instagram", desc: "Tenha 50 opções de postagens para apresentar sabores, divulgar novidades, mostrar acompanhamentos e manter sua comunicação ativa. Usando uma por dia, você terá material para 50 dias.", img: config.images.instagramExample },
-    { title: "20 variações de cardápio", desc: "Modelos para organizar espetinhos, acompanhamentos, bebidas e combos. Personalize nomes, fotos, preços e formas de contato.", img: config.images.menuExample },
-    { title: "15 artes para embalagens", desc: "Personalize a parte externa das embalagens com faixas e aplicações gráficas que reforçam a identidade do seu negócio.", img: config.images.packagingExample },
-    { title: "10 modelos de cartão de contato", desc: "Deixe WhatsApp, Instagram e demais informações fáceis de encontrar.", img: config.images.contactCardExample },
+    { title: "50 artes para Instagram", desc: "Tenha 50 opções de postagens para apresentar sabores, divulgar novidades, mostrar acompanhamentos e manter sua comunicação ativa. Usando uma por dia, você terá material para 50 dias.", img: config.images.instagramApostila },
+    { title: "20 variações de cardápio", desc: "Modelos para organizar espetinhos, acompanhamentos, bebidas e combos. Personalize nomes, fotos, preços e formas de contato.", img: config.images.cardapiosApostila },
+    { title: "15 artes para embalagens", desc: "Personalize a parte externa das embalagens com faixas e aplicações gráficas que reforçam a identidade do seu negócio.", img: config.images.embalagensApostilas },
+    { title: "10 modelos de cartão de contato", desc: "Deixe WhatsApp, Instagram e demais informações fáceis de encontrar.", img: config.images.cartaoApostila },
     { title: "25 modelos de etiquetas e adesivos", desc: "Acrescente sua identidade visual aos pedidos com modelos para personalizar e mandar imprimir.", img: config.images.labelsExample },
   ];
 
@@ -23,9 +94,9 @@ export function Deliverables() {
 
         <div className="space-y-8">
           {items.map((item, i) => (
-            <div key={i} className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-2xl shadow-sm border border-[#20201E]/5 items-center sm:items-start">
-              <div className="w-full sm:w-1/3 aspect-square bg-[#F6F1E8] rounded-xl overflow-hidden shrink-0">
-                <img src={item.img} alt={item.title} className="w-full h-full object-contain p-2" />
+            <div key={i} className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-2xl shadow-sm border border-[#20201E]/5 items-center sm:items-start hover:shadow-md transition-shadow">
+              <div className="w-full sm:w-1/3 aspect-square bg-[#F6F1E8]/70 rounded-xl overflow-hidden shrink-0 flex items-center justify-center p-3">
+                <img src={item.img} alt={item.title} className="w-full h-full object-contain drop-shadow-md hover:scale-105 transition-transform duration-300" />
               </div>
               <div className="w-full sm:w-2/3 flex flex-col justify-center h-full sm:py-4">
                 <h3 className="text-xl font-bold text-[#20201E] mb-3 text-center sm:text-left">{item.title}</h3>
@@ -34,10 +105,9 @@ export function Deliverables() {
             </div>
           ))}
         </div>
-        
+
         <p className="text-xs text-center text-[#222222]/50 mt-8 max-w-xl mx-auto">
-          Os arquivos são digitais. Você recebe os modelos para edição; impressão, materiais e embalagens físicas são contratados separadamente. Tutorial de acesso e edição incluso.
-        </p>
+          Os arquivos são digitais. Você recebe os modelos para edição; impressão, materiais e embalagens físicas são contratados separadamente.        </p>
       </div>
     </section>
   );
@@ -57,15 +127,15 @@ export function Bonuses() {
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 text-[#F6F1E8]">
           E no Premium você também recebe:
         </h2>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {bonuses.map((b) => (
-            <div key={b.num} className="bg-[#F6F1E8]/5 border border-[#F6F1E8]/10 rounded-2xl overflow-hidden flex flex-col">
-              <div className="relative aspect-square">
-                <div className="absolute top-3 left-3 bg-[#E87516] text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider z-10">
+            <div key={b.num} className="bg-[#F6F1E8]/5 border border-[#F6F1E8]/10 rounded-2xl overflow-hidden flex flex-col hover:border-[#E87516]/40 transition-all shadow-xl">
+              <div className="relative aspect-square bg-[#F6F1E8]/10 p-3 flex items-center justify-center">
+                <div className="absolute top-3 left-3 bg-[#E87516] text-white text-[10px] sm:text-xs font-extrabold px-2.5 py-1 rounded uppercase tracking-wider z-10 shadow">
                   Incluso no Premium
                 </div>
-                <img src={b.img} alt={b.title} className="w-full h-full object-cover" />
+                <img src={b.img} alt={b.title} className="w-full h-full object-contain rounded-lg drop-shadow-md" />
               </div>
               <div className="p-6 flex flex-col grow">
                 <span className="text-[#E87516] font-bold text-sm mb-2 uppercase">Bônus {b.num}</span>
@@ -96,7 +166,7 @@ export function Pricing() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-center md:items-stretch">
-          
+
           {/* Link para o Premium no celular antes do Básico */}
           <div className="md:hidden w-full text-center mb-2">
             <a href="#premium" className="text-[#C95508] font-bold underline underline-offset-4">
@@ -108,13 +178,13 @@ export function Pricing() {
           <div className="w-full max-w-sm bg-white rounded-3xl p-8 shadow-md border border-[#20201E]/10 flex flex-col relative">
             <h3 className="text-xl font-bold text-[#20201E] mb-2">Básico — para dar o primeiro passo</h3>
             <p className="text-[#222222]/70 text-sm mb-6 min-h-[40px]">Uma seleção prática para começar a organizar sua apresentação.</p>
-            
+
             <div className="mb-6">
-              <span className="text-4xl font-extrabold text-[#20201E]">R$ {config.basicPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+              <span className="text-4xl font-extrabold text-[#20201E]">R$ {config.basicPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
             </div>
 
-            <a 
-              href={config.basicCheckoutUrl} 
+            <a
+              href={config.basicCheckoutUrl}
               className="bg-[#20201E] hover:bg-black transition-colors text-white font-bold py-3 px-4 rounded-xl text-center w-full mb-8"
             >
               QUERO O PACOTE BÁSICO
@@ -128,7 +198,6 @@ export function Pricing() {
                 "2 artes para embalagens.",
                 "2 modelos de cartão de contato.",
                 "4 modelos de etiquetas e adesivos.",
-                "Tutorial de acesso e edição.",
                 "Entrega por e-mail após aprovação.",
                 "Acesso vitalício.",
                 "Licença de uso comercial nos termos do produto.",
@@ -149,17 +218,17 @@ export function Pricing() {
             </div>
 
             <h3 className="text-xl font-bold text-[#20201E] mb-2 mt-2">Premium — sua marca em todos os detalhes</h3>
-            <p className="text-[#C95508] font-bold text-sm mb-6 min-h-[40px]">Por R$ {diff.toLocaleString('pt-BR', {minimumFractionDigits: 2})} a mais que o Básico, receba 120 modelos principais e os 4 bônus.</p>
-            
+            <p className="text-[#C95508] font-bold text-sm mb-6 min-h-[40px]">Por R$ {diff.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} a mais que o Básico, receba 120 modelos principais e os 4 bônus.</p>
+
             <div className="mb-6">
-              <span className="text-4xl font-extrabold text-[#20201E]">R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+              <span className="text-4xl font-extrabold text-[#20201E]">R$ {config.premiumPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
             </div>
 
-            <a 
-              href={config.premiumCheckoutUrl} 
+            <a
+              href={config.premiumCheckoutUrl}
               className="bg-[#E87516] hover:bg-[#C95508] transition-colors text-white font-bold py-4 px-4 rounded-xl text-center w-full mb-8 shadow-lg shadow-[#E87516]/30"
             >
-              QUERO O PREMIUM POR R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+              QUERO O PREMIUM POR R$ {config.premiumPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </a>
 
             <div className="space-y-3 flex-grow">
@@ -174,7 +243,6 @@ export function Pricing() {
                 <span key="b2"><strong className="text-[#C95508]">Bônus:</strong> 30 modelos de stories.</span>,
                 <span key="b3"><strong className="text-[#C95508]">Bônus:</strong> 12 modelos de combos e promoções.</span>,
                 <span key="b4"><strong className="text-[#C95508]">Bônus:</strong> calendário de conteúdo de 30 dias.</span>,
-                "Tutorial de acesso e edição.",
                 "Entrega por e-mail após aprovação.",
                 "Acesso vitalício.",
                 "Licença de uso comercial nos termos do produto.",
@@ -200,25 +268,51 @@ export function Pricing() {
 
 export function Guarantee() {
   return (
-    <section className="bg-white py-16 px-4">
-      <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
-        <div className="w-16 h-16 bg-[#F6F1E8] rounded-full flex items-center justify-center mb-6">
-          <Shield className="w-8 h-8 text-[#20201E]" />
+    <section className="bg-[#F6F1E8] py-16 md:py-24 px-4">
+      <div className="max-w-3xl mx-auto bg-white rounded-3xl p-8 sm:p-12 shadow-xl border border-[#20201E]/10 text-center flex flex-col items-center relative overflow-hidden">
+
+        {/* Selo de Garantia */}
+        <div className="mb-6 relative">
+          <div className="absolute inset-0 bg-[#E87516]/15 rounded-full blur-2xl scale-125"></div>
+          <img
+            src={config.images.guaranteeBadge}
+            alt="Selo de 7 Dias de Garantia"
+            className="w-32 h-32 sm:w-40 sm:h-40 object-contain relative z-10 drop-shadow-md hover:scale-105 transition-transform duration-300"
+          />
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold text-[#20201E] mb-4">
-          Conheça o material com tranquilidade: você tem 7 dias de garantia.
+
+        <span className="bg-[#E87516]/10 text-[#C95508] text-xs sm:text-sm font-extrabold uppercase tracking-widest py-1.5 px-4 rounded-full mb-4">
+          Risco Zero Para Você
+        </span>
+
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-[#20201E] mb-4 leading-tight">
+          Teste por 7 dias com garantia incondicional.
         </h2>
-        <p className="text-lg text-[#222222]/80 mb-6">
-          Depois da compra, você tem 7 dias para conhecer os arquivos e avaliar se o pack faz sentido para o seu negócio. Se não ficar satisfeito, solicite o reembolso pelo canal indicado na compra dentro desse prazo.
+
+        <p className="text-base sm:text-lg text-[#222222]/85 mb-8 max-w-xl leading-relaxed">
+          Após a compra, você tem <strong>7 dias inteiros</strong> para explorar os modelos e avaliar no seu negócio. Se por qualquer motivo não ficar satisfeito, basta solicitar o reembolso e devolveremos 100% do seu dinheiro.
         </p>
-        <p className="font-semibold text-[#20201E] mb-8">
-          Uma oportunidade para conferir os modelos e decidir com tranquilidade.
-        </p>
-        <a 
-          href="#pacotes" 
-          className="inline-block border-2 border-[#20201E] text-[#20201E] hover:bg-[#20201E] hover:text-white transition-colors font-bold py-3 px-8 rounded-xl"
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mb-8 text-left bg-[#F6F1E8]/80 p-4 sm:p-5 rounded-2xl border border-[#20201E]/5">
+          <div className="flex items-center space-x-3">
+            <CheckCircle2 className="w-5 h-5 text-[#E87516] shrink-0" />
+            <span className="text-xs sm:text-sm font-semibold text-[#20201E]">Satisfação 100% Garantida</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <CheckCircle2 className="w-5 h-5 text-[#E87516] shrink-0" />
+            <span className="text-xs sm:text-sm font-semibold text-[#20201E]">Reembolso Sem Burocracia</span>
+          </div>
+          <div className="flex items-center space-x-3">
+            <CheckCircle2 className="w-5 h-5 text-[#E87516] shrink-0" />
+            <span className="text-xs sm:text-sm font-semibold text-[#20201E]">Acesso Imediato</span>
+          </div>
+        </div>
+
+        <a
+          href="#pacotes"
+          className="bg-[#E87516] hover:bg-[#C95508] text-white transition-all font-bold py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/30 text-base sm:text-lg w-full sm:w-auto"
         >
-          QUERO ESCOLHER MEU PACOTE
+          QUERO ESCOLHER MEU PACOTE COM GARANTIA
         </a>
       </div>
     </section>
@@ -237,7 +331,7 @@ export function HowItWorks() {
     <section className="bg-[#F6F1E8] py-16 md:py-24 px-4 border-t border-[#20201E]/5">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#20201E] mb-12">Comprou, recebeu, personalizou.</h2>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {steps.map((step, i) => (
             <div key={i} className="text-center sm:text-left">
@@ -311,7 +405,7 @@ export function FAQ() {
         <div className="space-y-4">
           {faqs.map((faq, i) => (
             <div key={i} className="bg-white rounded-xl shadow-sm border border-[#20201E]/5 overflow-hidden">
-              <button 
+              <button
                 onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className="w-full text-left px-6 py-4 font-bold text-[#20201E] flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#E87516] focus:ring-inset"
                 aria-expanded={openIndex === i}
@@ -319,7 +413,7 @@ export function FAQ() {
                 <span className="pr-4">{faq.q}</span>
                 <ChevronDown className={`w-5 h-5 text-[#E87516] transition-transform ${openIndex === i ? 'rotate-180' : ''}`} />
               </button>
-              <div 
+              <div
                 className={`px-6 pb-4 text-[#222222]/80 transition-all duration-300 ease-in-out ${openIndex === i ? 'block' : 'hidden'}`}
               >
                 {faq.a}
@@ -342,16 +436,16 @@ export function Footer() {
         <p className="text-lg text-[#F6F1E8]/80 mb-8 max-w-2xl mx-auto">
           Escolha seu pacote e tenha uma base pronta para criar cardápios, divulgar seus espetinhos e personalizar a apresentação dos pedidos.
         </p>
-        
+
         <div className="flex flex-col items-center mb-16">
-          <a 
-            href="#premium" 
+          <a
+            href="#premium"
             className="bg-[#E87516] hover:bg-[#C95508] transition-colors text-white font-bold text-lg py-4 px-8 rounded-xl w-full sm:w-auto shadow-lg shadow-[#E87516]/30 mb-3 text-center"
           >
             QUERO O PACK PREMIUM
           </a>
           <p className="text-xs text-[#F6F1E8]/50 font-medium text-center">
-            R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})} • Pagamento único • Garantia de 7 dias
+            R$ {config.premiumPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} • Pagamento único • Garantia de 7 dias
           </p>
           <a href="#pacotes" className="mt-4 text-[#C95508] hover:text-white transition-colors underline font-semibold text-sm">
             Comparar os pacotes
@@ -384,11 +478,11 @@ export function StickyCTA() {
     const handleScroll = () => {
       const hero = document.getElementById('hero');
       const pacotes = document.getElementById('pacotes');
-      
+
       if (hero && pacotes) {
         const heroBottom = hero.getBoundingClientRect().bottom;
         const pacotesTop = pacotes.getBoundingClientRect().top;
-        
+
         // Show after hero is out of view, hide when pricing is in view
         if (heroBottom < 0 && pacotesTop > window.innerHeight) {
           setIsVisible(true);
@@ -409,10 +503,10 @@ export function StickyCTA() {
       <div className="bg-white rounded-xl shadow-2xl p-3 flex items-center justify-between pointer-events-auto border border-[#20201E]/10">
         <div className="flex flex-col">
           <span className="font-bold text-[#20201E] leading-none">Premium</span>
-          <span className="text-sm font-extrabold text-[#C95508]">R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+          <span className="text-sm font-extrabold text-[#C95508]">R$ {config.premiumPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
         </div>
-        <a 
-          href="#premium" 
+        <a
+          href="#premium"
           className="bg-[#E87516] text-white font-bold py-2 px-6 rounded-lg text-sm shadow-md"
         >
           VER PACOTE
