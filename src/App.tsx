@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle2, Check, Flame, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { config } from './config';
 import { Deliverables, Bonuses, Pricing, Guarantee, HowItWorks, License, FAQ, Footer, StickyCTA, Testimonials } from './components/RestOfApp';
+import { ThankYouPage } from './components/ThankYou';
 
 function PromoBar() {
   const [timeLeft, setTimeLeft] = useState<{ minutes: number; seconds: number } | null>(null);
@@ -421,6 +422,23 @@ function TargetAudience() {
 }
 
 export default function App() {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname);
+    };
+
+    window.addEventListener('popstate', handleLocationChange);
+    return () => window.removeEventListener('popstate', handleLocationChange);
+  }, []);
+
+  const normalizedPath = currentPath.toLowerCase().replace(/\/$/, '');
+
+  if (normalizedPath === '/obrigado') {
+    return <ThankYouPage />;
+  }
+
   return (
     <div className="min-h-screen bg-[#F6F1E8] font-sans relative">
       <PromoBar />

@@ -2,8 +2,8 @@ export const config = {
   productName: "Espetinho de Marca",
   basicPrice: 17.99,
   premiumPrice: 27.99,
-  basicCheckoutUrl: "#", // Add real URL later
-  premiumCheckoutUrl: "#", // Add real URL later
+  basicCheckoutUrl: "https://pay.wiapy.com/RoOrwpFkTrVM",
+  premiumCheckoutUrl: "https://pay.wiapy.com/T7ffuI2bQ_pk",
   supportEmail: "oswaldomauricio6@gmail.com", // Add real email
   supportWhatsapp: "", // Add real Whatsapp link
   sellerName: "Espetinho de Marca", // Add real seller name
