@@ -1,0 +1,423 @@
+import React, { useState, useEffect } from 'react';
+import { CheckCircle2, Shield, ChevronDown, ChevronRight, Check } from 'lucide-react';
+import { config } from '../config';
+
+export function Deliverables() {
+  const items = [
+    { title: "50 artes para Instagram", desc: "Tenha 50 opções de postagens para apresentar sabores, divulgar novidades, mostrar acompanhamentos e manter sua comunicação ativa. Usando uma por dia, você terá material para 50 dias.", img: config.images.instagramExample },
+    { title: "20 variações de cardápio", desc: "Modelos para organizar espetinhos, acompanhamentos, bebidas e combos. Personalize nomes, fotos, preços e formas de contato.", img: config.images.menuExample },
+    { title: "15 artes para embalagens", desc: "Personalize a parte externa das embalagens com faixas e aplicações gráficas que reforçam a identidade do seu negócio.", img: config.images.packagingExample },
+    { title: "10 modelos de cartão de contato", desc: "Deixe WhatsApp, Instagram e demais informações fáceis de encontrar.", img: config.images.contactCardExample },
+    { title: "25 modelos de etiquetas e adesivos", desc: "Acrescente sua identidade visual aos pedidos com modelos para personalizar e mandar imprimir.", img: config.images.labelsExample },
+  ];
+
+  return (
+    <section className="bg-[#F6F1E8] py-16 md:py-24 px-4 border-t border-[#20201E]/5">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-[#20201E]">
+          Conheça os 120 modelos do Pacote Premium.
+        </h2>
+        <p className="text-lg text-center text-[#222222]/80 mb-12 max-w-2xl mx-auto">
+          Uma biblioteca visual para usar na divulgação e na apresentação do seu negócio.
+        </p>
+
+        <div className="space-y-8">
+          {items.map((item, i) => (
+            <div key={i} className="flex flex-col sm:flex-row gap-6 bg-white p-6 rounded-2xl shadow-sm border border-[#20201E]/5 items-center sm:items-start">
+              <div className="w-full sm:w-1/3 aspect-square bg-[#F6F1E8] rounded-xl overflow-hidden shrink-0">
+                <img src={item.img} alt={item.title} className="w-full h-full object-contain p-2" />
+              </div>
+              <div className="w-full sm:w-2/3 flex flex-col justify-center h-full sm:py-4">
+                <h3 className="text-xl font-bold text-[#20201E] mb-3 text-center sm:text-left">{item.title}</h3>
+                <p className="text-[#222222]/80 text-center sm:text-left leading-relaxed">{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <p className="text-xs text-center text-[#222222]/50 mt-8 max-w-xl mx-auto">
+          Os arquivos são digitais. Você recebe os modelos para edição; impressão, materiais e embalagens físicas são contratados separadamente. Tutorial de acesso e edição incluso.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+export function Bonuses() {
+  const bonuses = [
+    { num: 1, title: "50 legendas para suas postagens", desc: "Textos de apoio para adaptar ao seu negócio e acompanhar a divulgação.", img: config.images.bonusCaptions },
+    { num: 2, title: "30 modelos de stories", desc: "Opções para mostrar o cardápio, avisar que está aberto e apresentar novidades.", img: config.images.bonusStories },
+    { num: 3, title: "12 modelos de combos e promoções", desc: "Apresente suas próprias ofertas com clareza, incluindo condições e preços.", img: config.images.bonusCombos },
+    { num: 4, title: "Calendário de conteúdo de 30 dias", desc: "Um roteiro simples para organizar o que publicar ao longo do mês.", img: config.images.bonusCalendar },
+  ];
+
+  return (
+    <section className="bg-[#20201E] py-16 md:py-24 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-12 text-[#F6F1E8]">
+          E no Premium você também recebe:
+        </h2>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {bonuses.map((b) => (
+            <div key={b.num} className="bg-[#F6F1E8]/5 border border-[#F6F1E8]/10 rounded-2xl overflow-hidden flex flex-col">
+              <div className="relative aspect-square">
+                <div className="absolute top-3 left-3 bg-[#E87516] text-white text-xs font-bold px-2 py-1 rounded uppercase tracking-wider z-10">
+                  Incluso no Premium
+                </div>
+                <img src={b.img} alt={b.title} className="w-full h-full object-cover" />
+              </div>
+              <div className="p-6 flex flex-col grow">
+                <span className="text-[#E87516] font-bold text-sm mb-2 uppercase">Bônus {b.num}</span>
+                <h3 className="text-lg font-bold text-white mb-2">{b.title}</h3>
+                <p className="text-[#F6F1E8]/70 text-sm mt-auto">{b.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Pricing() {
+  const diff = config.premiumPrice - config.basicPrice;
+
+  return (
+    <section id="pacotes" className="bg-[#F6F1E8] py-16 md:py-24 px-4 scroll-mt-10">
+      <div className="max-w-5xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#20201E] mb-4">
+            Escolha como você quer começar.
+          </h2>
+          <p className="text-lg text-[#222222]/80 max-w-2xl mx-auto">
+            Do essencial ao conjunto completo, com pagamento único e acesso vitalício.
+          </p>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-8 justify-center items-center md:items-stretch">
+          
+          {/* Link para o Premium no celular antes do Básico */}
+          <div className="md:hidden w-full text-center mb-2">
+            <a href="#premium" className="text-[#C95508] font-bold underline underline-offset-4">
+              Ver Premium completo
+            </a>
+          </div>
+
+          {/* Pacote Básico */}
+          <div className="w-full max-w-sm bg-white rounded-3xl p-8 shadow-md border border-[#20201E]/10 flex flex-col relative">
+            <h3 className="text-xl font-bold text-[#20201E] mb-2">Básico — para dar o primeiro passo</h3>
+            <p className="text-[#222222]/70 text-sm mb-6 min-h-[40px]">Uma seleção prática para começar a organizar sua apresentação.</p>
+            
+            <div className="mb-6">
+              <span className="text-4xl font-extrabold text-[#20201E]">R$ {config.basicPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+            </div>
+
+            <a 
+              href={config.basicCheckoutUrl} 
+              className="bg-[#20201E] hover:bg-black transition-colors text-white font-bold py-3 px-4 rounded-xl text-center w-full mb-8"
+            >
+              QUERO O PACOTE BÁSICO
+            </a>
+
+            <div className="space-y-3 flex-grow">
+              <p className="font-bold text-[#20201E] text-sm pb-2 border-b border-[#20201E]/10">32 modelos principais.</p>
+              {[
+                "20 artes para Instagram.",
+                "4 variações de cardápio.",
+                "2 artes para embalagens.",
+                "2 modelos de cartão de contato.",
+                "4 modelos de etiquetas e adesivos.",
+                "Tutorial de acesso e edição.",
+                "Entrega por e-mail após aprovação.",
+                "Acesso vitalício.",
+                "Licença de uso comercial nos termos do produto.",
+                "Garantia de 7 dias."
+              ].map((item, i) => (
+                <div key={i} className="flex items-start text-sm">
+                  <Check className="w-4 h-4 text-[#20201E] shrink-0 mr-2 mt-0.5" />
+                  <span className="text-[#222222]/80">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pacote Premium */}
+          <div id="premium" className="w-full max-w-sm bg-white rounded-3xl p-8 shadow-xl border-2 border-[#E87516] flex flex-col relative scroll-mt-10 md:-mt-4 md:mb-4 scale-100 md:scale-105 z-10">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#E87516] text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+              Pacote Completo
+            </div>
+
+            <h3 className="text-xl font-bold text-[#20201E] mb-2 mt-2">Premium — sua marca em todos os detalhes</h3>
+            <p className="text-[#C95508] font-bold text-sm mb-6 min-h-[40px]">Por R$ {diff.toLocaleString('pt-BR', {minimumFractionDigits: 2})} a mais que o Básico, receba 120 modelos principais e os 4 bônus.</p>
+            
+            <div className="mb-6">
+              <span className="text-4xl font-extrabold text-[#20201E]">R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+            </div>
+
+            <a 
+              href={config.premiumCheckoutUrl} 
+              className="bg-[#E87516] hover:bg-[#C95508] transition-colors text-white font-bold py-4 px-4 rounded-xl text-center w-full mb-8 shadow-lg shadow-[#E87516]/30"
+            >
+              QUERO O PREMIUM POR R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+            </a>
+
+            <div className="space-y-3 flex-grow">
+              <p className="font-bold text-[#20201E] text-sm pb-2 border-b border-[#20201E]/10">120 modelos + 4 Bônus.</p>
+              {[
+                "50 artes para Instagram.",
+                "20 variações de cardápio.",
+                "15 artes para embalagens.",
+                "10 modelos de cartão de contato.",
+                "25 modelos de etiquetas e adesivos.",
+                <span key="b1"><strong className="text-[#C95508]">Bônus:</strong> 50 legendas.</span>,
+                <span key="b2"><strong className="text-[#C95508]">Bônus:</strong> 30 modelos de stories.</span>,
+                <span key="b3"><strong className="text-[#C95508]">Bônus:</strong> 12 modelos de combos e promoções.</span>,
+                <span key="b4"><strong className="text-[#C95508]">Bônus:</strong> calendário de conteúdo de 30 dias.</span>,
+                "Tutorial de acesso e edição.",
+                "Entrega por e-mail após aprovação.",
+                "Acesso vitalício.",
+                "Licença de uso comercial nos termos do produto.",
+                "Garantia de 7 dias."
+              ].map((item, i) => (
+                <div key={i} className="flex items-start text-sm">
+                  <Check className="w-4 h-4 text-[#E87516] shrink-0 mr-2 mt-0.5" />
+                  <span className="text-[#222222]/90 font-medium">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center mt-10">
+          <p className="text-sm font-bold text-[#20201E]">Compra única. Sem mensalidade do pack.</p>
+          <p className="text-xs text-[#222222]/60 mt-1 max-w-md mx-auto">Escolha a forma de pagamento disponível no checkout. O acesso é liberado após a confirmação.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Guarantee() {
+  return (
+    <section className="bg-white py-16 px-4">
+      <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
+        <div className="w-16 h-16 bg-[#F6F1E8] rounded-full flex items-center justify-center mb-6">
+          <Shield className="w-8 h-8 text-[#20201E]" />
+        </div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#20201E] mb-4">
+          Conheça o material com tranquilidade: você tem 7 dias de garantia.
+        </h2>
+        <p className="text-lg text-[#222222]/80 mb-6">
+          Depois da compra, você tem 7 dias para conhecer os arquivos e avaliar se o pack faz sentido para o seu negócio. Se não ficar satisfeito, solicite o reembolso pelo canal indicado na compra dentro desse prazo.
+        </p>
+        <p className="font-semibold text-[#20201E] mb-8">
+          Uma oportunidade para conferir os modelos e decidir com tranquilidade.
+        </p>
+        <a 
+          href="#pacotes" 
+          className="inline-block border-2 border-[#20201E] text-[#20201E] hover:bg-[#20201E] hover:text-white transition-colors font-bold py-3 px-8 rounded-xl"
+        >
+          QUERO ESCOLHER MEU PACOTE
+        </a>
+      </div>
+    </section>
+  );
+}
+
+export function HowItWorks() {
+  const steps = [
+    { title: "Escolha seu pacote", desc: "Selecione o Básico ou o Premium e siga para o checkout." },
+    { title: "Confirme o pagamento", desc: "A liberação acontece após a aprovação do pagamento." },
+    { title: "Receba no seu e-mail", desc: "As instruções e os links de acesso serão enviados ao e-mail informado na compra." },
+    { title: "Personalize e use", desc: "Abra os modelos, adapte suas informações e prepare os materiais para postar ou imprimir." },
+  ];
+
+  return (
+    <section className="bg-[#F6F1E8] py-16 md:py-24 px-4 border-t border-[#20201E]/5">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#20201E] mb-12">Comprou, recebeu, personalizou.</h2>
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {steps.map((step, i) => (
+            <div key={i} className="text-center sm:text-left">
+              <div className="w-10 h-10 bg-[#E87516] text-white rounded-full flex items-center justify-center font-bold text-lg mb-4 mx-auto sm:mx-0">
+                {i + 1}
+              </div>
+              <h3 className="font-bold text-[#20201E] mb-2">{step.title}</h3>
+              <p className="text-sm text-[#222222]/80">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="bg-[#20201E] text-white rounded-2xl p-8 md:p-10 text-center max-w-3xl mx-auto shadow-xl">
+          <h3 className="text-xl sm:text-2xl font-bold mb-4">Acesso vitalício aos arquivos adquiridos.</h3>
+          <p className="text-[#F6F1E8]/80">
+            Você poderá baixar e guardar os arquivos recebidos para continuar usando no seu negócio. Não há mensalidade do pack.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function License() {
+  return (
+    <section className="bg-white py-16 md:py-24 px-4">
+      <div className="max-w-3xl mx-auto text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#20201E] mb-6">
+          Personalize e use na divulgação do seu negócio.
+        </h2>
+        <p className="text-lg text-[#222222]/80 mb-6">
+          O pack inclui licença de uso comercial dos materiais fornecidos para personalizar e divulgar seu próprio negócio, conforme os termos de uso.
+        </p>
+        <p className="font-semibold text-[#20201E] mb-6">
+          Você pode usar as artes finais nas suas redes sociais, cardápios, cartões, etiquetas e aplicações externas de embalagens.
+        </p>
+        <div className="bg-[#F6F1E8] p-6 rounded-xl border border-[#20201E]/10">
+          <p className="text-sm text-[#222222]/70">
+            A licença não permite revender, compartilhar ou distribuir os arquivos editáveis como um novo pack. Elementos de terceiros seguem suas respectivas licenças.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function FAQ() {
+  const faqs = [
+    { q: "O que eu recebo?", a: "Você recebe arquivos digitais e links para os modelos do pacote escolhido. As quantidades e os bônus estão descritos na comparação dos planos." },
+    { q: "Vou receber caixas, cartões e etiquetas pelo correio?", a: "Não. Este é um produto digital. Você recebe as artes para personalizar. Impressão, embalagens e demais materiais físicos não estão inclusos." },
+    { q: "Como recebo meu acesso?", a: "As instruções e links são enviados ao e-mail informado na compra, após a aprovação do pagamento. Confira também as pastas de spam e promoções." },
+    { q: "Posso editar pelo celular?", a: "Sim. Os modelos serão preparados para personalização no Canva pelo celular ou computador. O tutorial explica o acesso e a edição." },
+    { q: "Preciso ter experiência com design?", a: "Você parte de modelos prontos e pode alterar as informações do seu negócio seguindo o tutorial." },
+    { q: "Preciso do Canva Pro?", a: "Os modelos do pack devem ser preparados e validados para uso no Canva gratuito. Se você adicionar por conta própria elementos pagos, eles podem exigir uma assinatura ou pagamento adicional." },
+    { q: "Posso mudar cores, preços e fotos?", a: "Sim, nos elementos editáveis dos modelos. Você pode adaptar as informações e utilizar fotos reais dos seus produtos." },
+    { q: "As embalagens vêm prontas?", a: "Não. O pack oferece artes para personalização externa de embalagens. Você utiliza embalagens físicas adequadas ao seu produto e providencia a impressão das artes separadamente." },
+    { q: "O acesso tem mensalidade?", a: "Não. A compra do pack é única, com acesso vitalício aos arquivos adquiridos." },
+    { q: "O Premium inclui o Básico?", a: "Sim. O Premium inclui os modelos do Básico dentro do total anunciado e acrescenta mais opções e os quatro bônus." },
+    { q: "Posso revender os arquivos?", a: "Não. A licença permite utilizar os materiais no seu negócio, mas não revender ou redistribuir os arquivos editáveis." },
+    { q: "E se eu não gostar?", a: "Você pode solicitar o reembolso dentro de 7 dias após a compra, pelo canal indicado no pedido." },
+    { q: "Quais formas de pagamento estão disponíveis?", a: "As opções e condições são apresentadas no checkout antes da conclusão da compra." },
+    { q: "O pack garante aumento das vendas?", a: "Não há garantia de resultados comerciais. O objetivo é facilitar a criação dos materiais e melhorar a apresentação do negócio." }
+  ];
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section className="bg-[#F6F1E8] py-16 md:py-24 px-4 border-t border-[#20201E]/5">
+      <div className="max-w-3xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-bold text-center text-[#20201E] mb-12">Perguntas Frequentes</h2>
+        <div className="space-y-4">
+          {faqs.map((faq, i) => (
+            <div key={i} className="bg-white rounded-xl shadow-sm border border-[#20201E]/5 overflow-hidden">
+              <button 
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
+                className="w-full text-left px-6 py-4 font-bold text-[#20201E] flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-[#E87516] focus:ring-inset"
+                aria-expanded={openIndex === i}
+              >
+                <span className="pr-4">{faq.q}</span>
+                <ChevronDown className={`w-5 h-5 text-[#E87516] transition-transform ${openIndex === i ? 'rotate-180' : ''}`} />
+              </button>
+              <div 
+                className={`px-6 pb-4 text-[#222222]/80 transition-all duration-300 ease-in-out ${openIndex === i ? 'block' : 'hidden'}`}
+              >
+                {faq.a}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function Footer() {
+  return (
+    <footer className="bg-[#20201E] text-[#F6F1E8] py-16 px-4 text-center">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-6">
+          O capricho da sua brasa merece aparecer na sua marca.
+        </h2>
+        <p className="text-lg text-[#F6F1E8]/80 mb-8 max-w-2xl mx-auto">
+          Escolha seu pacote e tenha uma base pronta para criar cardápios, divulgar seus espetinhos e personalizar a apresentação dos pedidos.
+        </p>
+        
+        <div className="flex flex-col items-center mb-16">
+          <a 
+            href="#premium" 
+            className="bg-[#E87516] hover:bg-[#C95508] transition-colors text-white font-bold text-lg py-4 px-8 rounded-xl w-full sm:w-auto shadow-lg shadow-[#E87516]/30 mb-3 text-center"
+          >
+            QUERO O PACK PREMIUM
+          </a>
+          <p className="text-xs text-[#F6F1E8]/50 font-medium text-center">
+            R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})} • Pagamento único • Garantia de 7 dias
+          </p>
+          <a href="#pacotes" className="mt-4 text-[#C95508] hover:text-white transition-colors underline font-semibold text-sm">
+            Comparar os pacotes
+          </a>
+        </div>
+
+        <div className="border-t border-white/10 pt-8 flex flex-col items-center space-y-4 text-xs text-[#F6F1E8]/40">
+          <p className="font-bold text-white/60">{config.productName}</p>
+          <p>&copy; {new Date().getFullYear()} Todos os direitos reservados.</p>
+          {config.sellerName && <p>Distribuído por: {config.sellerName} {config.sellerDocument && `- ${config.sellerDocument}`}</p>}
+          <p>Produto Digital.</p>
+          <div className="flex flex-wrap justify-center gap-4 mt-2">
+            {config.supportEmail && <a href={`mailto:${config.supportEmail}`} className="hover:text-white transition-colors">Suporte: {config.supportEmail}</a>}
+            {config.termsUrl !== '#' && <a href={config.termsUrl} className="hover:text-white transition-colors">Termos de Uso</a>}
+            {config.privacyUrl !== '#' && <a href={config.privacyUrl} className="hover:text-white transition-colors">Política de Privacidade</a>}
+          </div>
+          <p className="mt-6 max-w-2xl mx-auto text-[10px]">
+            Este produto não é afiliado, patrocinado ou endossado pelo Instagram, Meta ou Canva.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export function StickyCTA() {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const hero = document.getElementById('hero');
+      const pacotes = document.getElementById('pacotes');
+      
+      if (hero && pacotes) {
+        const heroBottom = hero.getBoundingClientRect().bottom;
+        const pacotesTop = pacotes.getBoundingClientRect().top;
+        
+        // Show after hero is out of view, hide when pricing is in view
+        if (heroBottom < 0 && pacotesTop > window.innerHeight) {
+          setIsVisible(true);
+        } else {
+          setIsVisible(false);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed bottom-0 left-0 right-0 p-4 z-50 md:hidden pb-[calc(1rem+env(safe-area-inset-bottom))] bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
+      <div className="bg-white rounded-xl shadow-2xl p-3 flex items-center justify-between pointer-events-auto border border-[#20201E]/10">
+        <div className="flex flex-col">
+          <span className="font-bold text-[#20201E] leading-none">Premium</span>
+          <span className="text-sm font-extrabold text-[#C95508]">R$ {config.premiumPrice.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+        </div>
+        <a 
+          href="#premium" 
+          className="bg-[#E87516] text-white font-bold py-2 px-6 rounded-lg text-sm shadow-md"
+        >
+          VER PACOTE
+        </a>
+      </div>
+    </div>
+  );
+}
