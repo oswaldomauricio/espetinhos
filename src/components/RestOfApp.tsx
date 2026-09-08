@@ -3,9 +3,38 @@ import { Check, ChevronDown, ChevronRight, ChevronLeft, Shield, X, Sparkles, Fla
 import { config } from '../config';
 
 /* ───────────────────────────────────────────────────────
+   HELPER — Botão de CTA Reutilizável
+   ─────────────────────────────────────────────────────── */
+export function CtaButton({
+  onOpenUpsell,
+  text = "COMPRAR AGORA POR R$ 17,99",
+  subtextColor = "text-[#4B5563]",
+  className = "mt-8"
+}: {
+  onOpenUpsell: () => void;
+  text?: string;
+  subtextColor?: string;
+  className?: string;
+}) {
+  return (
+    <div className={`text-center ${className}`}>
+      <button
+        onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+        className="inline-block bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-extrabold text-base sm:text-lg py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+      >
+        {text}
+      </button>
+      <p className={`text-xs ${subtextColor} mt-2 font-medium`}>
+        Pagamento único • Acesso imediato • Garantia de 7 dias
+      </p>
+    </div>
+  );
+}
+
+/* ───────────────────────────────────────────────────────
    SEÇÃO 4 — O QUE VOCÊ VAI RECEBER
    ─────────────────────────────────────────────────────── */
-export function WhatYouGet() {
+export function WhatYouGet({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const items = [
     {
@@ -114,14 +143,7 @@ export function WhatYouGet() {
           Você recebe arquivos digitais. Impressão, materiais e embalagens físicas são contratados separadamente.
         </p>
 
-        <div className="text-center mt-8">
-          <a
-            href="#pacotes"
-            className="inline-block bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-bold text-base py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
-          >
-            VER OS PACOTES
-          </a>
-        </div>
+        <CtaButton onOpenUpsell={onOpenUpsell} />
       </div>
     </section>
   );
@@ -130,7 +152,7 @@ export function WhatYouGet() {
 /* ───────────────────────────────────────────────────────
    SEÇÃO 5 — BENEFÍCIOS PRÁTICOS
    ─────────────────────────────────────────────────────── */
-export function PracticalBenefits() {
+export function PracticalBenefits({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   const benefits = [
     {
       title: "Uma marca mais organizada",
@@ -173,6 +195,8 @@ export function PracticalBenefits() {
         <p className="text-lg font-semibold text-[#171717] text-center">
           Você cuida do sabor. O pack facilita a apresentação.
         </p>
+
+        <CtaButton onOpenUpsell={onOpenUpsell} />
       </div>
     </section>
   );
@@ -181,7 +205,7 @@ export function PracticalBenefits() {
 /* ───────────────────────────────────────────────────────
    SEÇÃO 6 — COMO FUNCIONA
    ─────────────────────────────────────────────────────── */
-export function HowItWorks() {
+export function HowItWorks({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   const steps = [
     { num: "01", title: "Escolha seu pacote", desc: "Escolha seu pacote e finalize a compra." },
     { num: "02", title: "Receba as instruções", desc: "Receba as instruções de acesso por e-mail após a aprovação do pagamento." },
@@ -212,6 +236,8 @@ export function HowItWorks() {
             </div>
           ))}
         </div>
+
+        <CtaButton onOpenUpsell={onOpenUpsell} className="mt-10" />
       </div>
     </section>
   );
@@ -220,7 +246,7 @@ export function HowItWorks() {
 /* ───────────────────────────────────────────────────────
    SEÇÃO 7 — BÔNUS EXCLUSIVOS DO PREMIUM
    ─────────────────────────────────────────────────────── */
-export function PremiumBonuses() {
+export function PremiumBonuses({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   const bonuses = [
     { num: 1, title: "50 legendas para suas postagens", desc: "Textos de apoio para adaptar ao seu negócio e acompanhar a divulgação.", img: config.images.bonusCaptions },
     { num: 2, title: "30 modelos de stories", desc: "Opções para mostrar o cardápio, avisar que está aberto e apresentar novidades.", img: config.images.bonusStories },
@@ -261,6 +287,8 @@ export function PremiumBonuses() {
         <p className="text-center text-white/50 text-xs mt-8">
           Inclusos no pacote Premium, além dos 120 modelos principais.
         </p>
+
+        <CtaButton onOpenUpsell={onOpenUpsell} subtextColor="text-white/50" className="mt-8" />
       </div>
     </section>
   );
@@ -269,7 +297,7 @@ export function PremiumBonuses() {
 /* ───────────────────────────────────────────────────────
    SEÇÃO 8 — PROVA SOCIAL
    ─────────────────────────────────────────────────────── */
-export function SocialProof() {
+export function SocialProof({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -310,8 +338,7 @@ export function SocialProof() {
           ))}
         </div>
 
-        {/* Pendência: depoimentos são mockups genéricos. 
-            Substituir por capturas reais quando disponíveis. */}
+        <CtaButton onOpenUpsell={onOpenUpsell} className="mt-10" />
       </div>
     </section>
   );
@@ -607,7 +634,7 @@ export function Pricing({ upsellStep, setUpsellStep }: { upsellStep: 1 | 2 | nul
 /* ───────────────────────────────────────────────────────
    SEÇÃO 10 — GARANTIA
    ─────────────────────────────────────────────────────── */
-export function Guarantee() {
+export function Guarantee({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   return (
     <section className="bg-[#EEF1F5] py-16 md:py-24 px-5">
       <div className="max-w-3xl mx-auto bg-white rounded-2xl p-8 sm:p-12 shadow-lg border border-[#E2E5EA] text-center flex flex-col items-center relative overflow-hidden">
@@ -634,12 +661,12 @@ export function Guarantee() {
           Após a compra, você tem <strong>7 dias</strong> para avaliar o material. Se decidir que ele não é para você, solicite o reembolso pelo canal indicado nas instruções da compra.
         </p>
 
-        <a
-          href="#pacotes"
-          className="bg-[#E87516] hover:bg-[#C95508] text-white transition-all font-bold py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/20 text-base sm:text-lg w-full sm:w-auto hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+        <button
+          onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+          className="bg-[#E87516] hover:bg-[#C95508] text-white transition-all font-extrabold py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/20 text-base sm:text-lg w-full sm:w-auto hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
-          ESCOLHER MEU PACOTE
-        </a>
+          COMPRAR AGORA POR R$ 17,99
+        </button>
       </div>
     </section>
   );
@@ -648,7 +675,7 @@ export function Guarantee() {
 /* ───────────────────────────────────────────────────────
    SEÇÃO 11 — PERGUNTAS FREQUENTES (FAQ)
    ─────────────────────────────────────────────────────── */
-export function FAQ() {
+export function FAQ({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   const faqs = [
     { q: "O que vou receber?", a: "Você recebe arquivos digitais e links para os modelos do pacote escolhido. As quantidades e os bônus estão descritos na comparação dos planos." },
     { q: "Recebo embalagens impressas?", a: "Não. Este é um produto digital. Você recebe as artes para personalizar. Impressão, embalagens e demais materiais físicos não estão inclusos." },
@@ -709,6 +736,8 @@ export function FAQ() {
             </div>
           ))}
         </div>
+
+        <CtaButton onOpenUpsell={onOpenUpsell} className="mt-10" />
       </div>
     </section>
   );
@@ -717,7 +746,7 @@ export function FAQ() {
 /* ───────────────────────────────────────────────────────
    SEÇÃO 12 — CTA FINAL
    ─────────────────────────────────────────────────────── */
-export function FinalCTA() {
+export function FinalCTA({ onOpenUpsell }: { onOpenUpsell: () => void }) {
   return (
     <section className="bg-[#171717] py-16 md:py-20 px-5 text-center">
       <div className="max-w-3xl mx-auto">
@@ -729,12 +758,12 @@ export function FinalCTA() {
           Escolha seu pacote e personalize seu próximo cardápio, sua próxima postagem e a apresentação dos seus pedidos.
         </p>
 
-        <a
-          href="#pacotes"
-          className="inline-block bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-bold text-lg py-4 px-10 rounded-xl shadow-lg shadow-[#E87516]/30 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+        <button
+          onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+          className="inline-block bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-extrabold text-lg py-4 px-10 rounded-xl shadow-lg shadow-[#E87516]/30 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
-          ESCOLHER MEU PACOTE
-        </a>
+          COMPRAR AGORA POR R$ 17,99
+        </button>
 
         <p className="text-xs text-white/40 mt-4 font-medium">
           Pagamento único • Garantia de 7 dias

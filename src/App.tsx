@@ -179,15 +179,15 @@ export default function App() {
       <Header />
       <Hero onOpenUpsell={openUpsell} />
       <MiniBenefits />
-      <WhatYouGet />
-      <PracticalBenefits />
-      <HowItWorksSection />
-      <PremiumBonuses />
-      <SocialProof />
+      <WhatYouGet onOpenUpsell={openUpsell} />
+      <PracticalBenefits onOpenUpsell={openUpsell} />
+      <HowItWorksSection onOpenUpsell={openUpsell} />
+      <PremiumBonuses onOpenUpsell={openUpsell} />
+      <SocialProof onOpenUpsell={openUpsell} />
       <Pricing upsellStep={upsellStep} setUpsellStep={setUpsellStep} />
-      <Guarantee />
-      <FAQ />
-      <FinalCTA />
+      <Guarantee onOpenUpsell={openUpsell} />
+      <FAQ onOpenUpsell={openUpsell} />
+      <FinalCTA onOpenUpsell={openUpsell} />
       <Footer />
     </div>
   );
