@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Check, ChevronRight, ChevronLeft } from 'lucide-react';
 import { config } from './config';
+import { trackBuyClick } from './utils/analytics';
 import { WhatYouGet, PracticalBenefits, HowItWorks as HowItWorksSection, PremiumBonuses, SocialProof, Pricing, Guarantee, FAQ, FinalCTA, Footer } from './components/RestOfApp';
 import { ThankYouPage } from './components/ThankYou';
 
@@ -87,7 +88,11 @@ function Hero({ onOpenUpsell }: { onOpenUpsell: () => void }) {
             {/* CTA — Mobile: abaixo do texto, antes da VSL */}
             <div className="flex flex-col items-center lg:items-start w-full sm:w-auto mb-6 lg:mb-0">
               <button
-                onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  trackBuyClick('hero_section');
+                  onOpenUpsell();
+                }}
                 className="bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-bold text-base sm:text-lg py-4 px-8 rounded-xl w-full sm:w-auto shadow-lg shadow-[#E87516]/20 text-center hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
               >
                 QUERO POR R$ {config.basicPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}

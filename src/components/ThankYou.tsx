@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CheckCircle2, Mail, ArrowLeft, HelpCircle } from 'lucide-react';
 import { config } from '../config';
+import { trackPurchase } from '../utils/analytics';
 
 export function ThankYouPage() {
+  useEffect(() => {
+    trackPurchase();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#F6F1E8] font-sans text-[#20201E] flex flex-col justify-between">
       {/* Top Header */}

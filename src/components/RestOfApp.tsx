@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Check, ChevronDown, ChevronRight, ChevronLeft, Shield, X, Sparkles, Flame } from 'lucide-react';
 import { config } from '../config';
+import { trackBuyClick } from '../utils/analytics';
 
 /* ───────────────────────────────────────────────────────
    HELPER — Botão de CTA Reutilizável
@@ -9,17 +10,19 @@ export function CtaButton({
   onOpenUpsell,
   text = "COMPRAR AGORA POR R$ 17,99",
   subtextColor = "text-[#4B5563]",
-  className = "mt-8"
+  className = "mt-8",
+  sectionName = "cta_button"
 }: {
   onOpenUpsell: () => void;
   text?: string;
   subtextColor?: string;
   className?: string;
+  sectionName?: string;
 }) {
   return (
     <div className={`text-center ${className}`}>
       <button
-        onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+        onClick={(e) => { e.preventDefault(); trackBuyClick(sectionName); onOpenUpsell(); }}
         className="inline-block bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-extrabold text-base sm:text-lg py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
       >
         {text}
@@ -143,7 +146,7 @@ export function WhatYouGet({ onOpenUpsell }: { onOpenUpsell: () => void }) {
           Você recebe arquivos digitais. Impressão, materiais e embalagens físicas são contratados separadamente.
         </p>
 
-        <CtaButton onOpenUpsell={onOpenUpsell} />
+        <CtaButton onOpenUpsell={onOpenUpsell} sectionName="what_you_get" />
       </div>
     </section>
   );
@@ -196,7 +199,7 @@ export function PracticalBenefits({ onOpenUpsell }: { onOpenUpsell: () => void }
           Você cuida do sabor. O pack facilita a apresentação.
         </p>
 
-        <CtaButton onOpenUpsell={onOpenUpsell} />
+        <CtaButton onOpenUpsell={onOpenUpsell} sectionName="practical_benefits" />
       </div>
     </section>
   );
@@ -237,7 +240,7 @@ export function HowItWorks({ onOpenUpsell }: { onOpenUpsell: () => void }) {
           ))}
         </div>
 
-        <CtaButton onOpenUpsell={onOpenUpsell} className="mt-10" />
+        <CtaButton onOpenUpsell={onOpenUpsell} sectionName="how_it_works" className="mt-10" />
       </div>
     </section>
   );
@@ -288,7 +291,7 @@ export function PremiumBonuses({ onOpenUpsell }: { onOpenUpsell: () => void }) {
           Inclusos no pacote Premium, além dos 120 modelos principais.
         </p>
 
-        <CtaButton onOpenUpsell={onOpenUpsell} subtextColor="text-white/50" className="mt-8" />
+        <CtaButton onOpenUpsell={onOpenUpsell} sectionName="premium_bonuses" subtextColor="text-white/50" className="mt-8" />
       </div>
     </section>
   );
@@ -338,7 +341,7 @@ export function SocialProof({ onOpenUpsell }: { onOpenUpsell: () => void }) {
           ))}
         </div>
 
-        <CtaButton onOpenUpsell={onOpenUpsell} className="mt-10" />
+        <CtaButton onOpenUpsell={onOpenUpsell} sectionName="social_proof" className="mt-10" />
       </div>
     </section>
   );
@@ -405,8 +408,11 @@ export function Pricing({ upsellStep, setUpsellStep }: { upsellStep: 1 | 2 | nul
 
             <a
               href={config.basicCheckoutUrl}
-              onClick={handleBasicClick}
-              className="bg-[#171717] hover:bg-black transition-colors text-white font-bold py-3.5 px-4 rounded-xl text-center w-full mb-6 cursor-pointer shadow-sm active:scale-[0.98]"
+              onClick={(e) => {
+                trackBuyClick('pricing_card_basic', 'Pacote Básico', config.basicPrice);
+                handleBasicClick(e);
+              }}
+              className="block w-full bg-[#171717] hover:bg-black transition-colors text-white font-bold py-3.5 px-4 rounded-xl text-center mb-6 cursor-pointer shadow-sm active:scale-[0.98]"
             >
               QUERO O PACOTE BÁSICO
             </a>
@@ -461,7 +467,13 @@ export function Pricing({ upsellStep, setUpsellStep }: { upsellStep: 1 | 2 | nul
 
             <a
               href={config.premiumCheckoutUrl}
-              className="bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-bold py-4 px-4 rounded-xl text-center w-full mb-6 shadow-lg shadow-[#E87516]/20 hover:shadow-xl"
+              onClick={(e) => {
+                e.preventDefault();
+                const targetUrl = e.currentTarget.href || config.premiumCheckoutUrl;
+                trackBuyClick('pricing_card_premium', 'Pacote Premium', config.premiumPrice);
+                window.location.href = targetUrl;
+              }}
+              className="block w-full bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-bold py-4 px-4 rounded-xl text-center mb-6 shadow-lg shadow-[#E87516]/20 hover:shadow-xl cursor-pointer"
             >
               QUERO O PREMIUM POR R$ {config.premiumPrice.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
             </a>
@@ -521,8 +533,14 @@ export function Pricing({ upsellStep, setUpsellStep }: { upsellStep: 1 | 2 | nul
 
       {/* ── Upsell / Downsell Modal ── */}
       {upsellStep !== null && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white text-[#171717] w-full max-w-lg rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden border-2 border-[#E87516] max-h-[90vh] overflow-y-auto">
+        <div
+          onClick={closeUpsell}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn cursor-pointer"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white text-[#171717] w-full max-w-lg rounded-2xl shadow-2xl p-6 sm:p-8 relative overflow-hidden border-2 border-[#E87516] max-h-[90vh] overflow-y-auto cursor-default"
+          >
 
             {/* Close */}
             <button
@@ -572,14 +590,20 @@ export function Pricing({ upsellStep, setUpsellStep }: { upsellStep: 1 | 2 | nul
 
                 <a
                   href={config.premiumCheckoutUrl}
-                  className="w-full bg-[#E87516] hover:bg-[#C95508] text-white font-extrabold text-sm sm:text-base py-4 px-6 rounded-xl shadow-lg shadow-[#E87516]/20 transition-all text-center mb-3"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const targetUrl = e.currentTarget.href || config.premiumCheckoutUrl;
+                    trackBuyClick('upsell_modal_step1_premium', 'Pacote Premium', config.premiumPrice);
+                    window.location.href = targetUrl;
+                  }}
+                  className="block w-full bg-[#E87516] hover:bg-[#C95508] text-white font-extrabold text-sm sm:text-base py-4 px-6 rounded-xl shadow-lg shadow-[#E87516]/20 transition-all text-center mb-3 cursor-pointer"
                 >
                   🔥 SIM! QUERO MUDAR PARA O PREMIUM POR R$ 27,99
                 </a>
 
                 <button
                   onClick={handleDeclineStep1}
-                  className="text-xs text-gray-500 hover:text-gray-800 underline transition-colors pt-2 cursor-pointer"
+                  className="inline-block text-xs text-gray-500 hover:text-gray-800 underline transition-colors py-2 cursor-pointer"
                 >
                   Não, obrigado. Não quero os 4 bônus e prefiro continuar...
                 </button>
@@ -611,17 +635,29 @@ export function Pricing({ upsellStep, setUpsellStep }: { upsellStep: 1 | 2 | nul
 
                 <a
                   href={config.premiumDiscountCheckoutUrl}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm sm:text-base py-4 px-6 rounded-xl shadow-lg shadow-red-600/30 transition-all text-center mb-3"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const targetUrl = e.currentTarget.href || config.premiumDiscountCheckoutUrl;
+                    trackBuyClick('upsell_modal_step2_discount', 'Pacote Premium Desconto', config.premiumDiscountPrice);
+                    window.location.href = targetUrl;
+                  }}
+                  className="block w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm sm:text-base py-4 px-6 rounded-xl shadow-lg shadow-red-600/30 transition-all text-center mb-3 cursor-pointer"
                 >
                   🎉 QUERO O PREMIUM COM DESCONTO POR R$ 19,99
                 </a>
 
-                <button
-                  onClick={handleDeclineStep2}
-                  className="text-xs text-gray-500 hover:text-gray-800 underline transition-colors pt-2 cursor-pointer"
+                <a
+                  href={config.basicCheckoutUrl}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const targetUrl = e.currentTarget.href || config.basicCheckoutUrl;
+                    trackBuyClick('upsell_modal_step2_decline_to_basic', 'Pacote Básico Direct', config.basicPrice);
+                    window.location.href = targetUrl;
+                  }}
+                  className="inline-block text-xs text-gray-500 hover:text-gray-800 underline transition-colors py-2 cursor-pointer"
                 >
                   Não aceitar o desconto. Quero apenas o Básico por R$ 17,99.
-                </button>
+                </a>
               </div>
             )}
           </div>
@@ -662,7 +698,11 @@ export function Guarantee({ onOpenUpsell }: { onOpenUpsell: () => void }) {
         </p>
 
         <button
-          onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+          onClick={(e) => {
+            e.preventDefault();
+            trackBuyClick('guarantee_section');
+            onOpenUpsell();
+          }}
           className="bg-[#E87516] hover:bg-[#C95508] text-white transition-all font-extrabold py-4 px-8 rounded-xl shadow-lg shadow-[#E87516]/20 text-base sm:text-lg w-full sm:w-auto hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
           COMPRAR AGORA POR R$ 17,99
@@ -737,7 +777,7 @@ export function FAQ({ onOpenUpsell }: { onOpenUpsell: () => void }) {
           ))}
         </div>
 
-        <CtaButton onOpenUpsell={onOpenUpsell} className="mt-10" />
+        <CtaButton onOpenUpsell={onOpenUpsell} sectionName="faq" className="mt-10" />
       </div>
     </section>
   );
@@ -759,7 +799,11 @@ export function FinalCTA({ onOpenUpsell }: { onOpenUpsell: () => void }) {
         </p>
 
         <button
-          onClick={(e) => { e.preventDefault(); onOpenUpsell(); }}
+          onClick={(e) => {
+            e.preventDefault();
+            trackBuyClick('final_cta_section');
+            onOpenUpsell();
+          }}
           className="inline-block bg-[#E87516] hover:bg-[#C95508] transition-all text-white font-extrabold text-lg py-4 px-10 rounded-xl shadow-lg shadow-[#E87516]/30 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
           COMPRAR AGORA POR R$ 17,99
