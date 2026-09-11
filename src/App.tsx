@@ -40,22 +40,20 @@ function Header() {
 }
 
 /* ───────────────────────────────────────────────────────
-   VSL PLAYER — Componente isolado para embed do Vimeo
+   VSL PLAYER — Componente isolado para embed do Wistia
    ─────────────────────────────────────────────────────── */
 function VslPlayer() {
   return (
-    <div className="w-full max-w-[360px] mx-auto my-8">
-      <div style={{ padding: '177.78% 0 0 0', position: 'relative' }}>
-        <iframe
-          src="https://player.vimeo.com/video/1224822448?badge=0&autopause=0&player_id=0&app_id=58479"
-          frameBorder="0"
-          allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
-          referrerPolicy="strict-origin-when-cross-origin"
-          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-          title="Espetinho de Marca"
-          className="rounded-2xl"
-        />
-      </div>
+    <div className="w-full max-w-[360px] mx-auto my-8 rounded-2xl overflow-hidden shadow-2xl">
+      <style>{`
+        wistia-player[media-id='93locykkqi']:not(:defined) {
+          background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/93locykkqi/swatch');
+          display: block;
+          filter: blur(5px);
+          padding-top: 177.78%;
+        }
+      `}</style>
+      <wistia-player media-id="93locykkqi" aspect="0.5625"></wistia-player>
     </div>
   );
 }
