@@ -19,20 +19,14 @@ function TopBar() {
 }
 
 /* ───────────────────────────────────────────────────────
-   HEADER — Logo + botão
+   HEADER — Logo
    ─────────────────────────────────────────────────────── */
 function Header() {
   return (
     <header className="bg-white border-b border-[#E2E5EA] py-3 px-4 sticky top-0 z-40">
-      <div className="max-w-[1160px] mx-auto flex items-center justify-between">
+      <div className="max-w-[1160px] mx-auto flex items-center justify-center">
         <a href="#" className="flex items-center">
           <img src="/logo.png" alt="Espetinho de Marca" className="h-10 sm:h-12 w-auto object-contain" />
-        </a>
-        <a
-          href="#pacotes"
-          className="bg-[#E87516] hover:bg-[#C95508] transition-colors text-white font-bold text-xs sm:text-sm py-2.5 px-5 rounded-lg shadow-sm"
-        >
-          Ver os pacotes
         </a>
       </div>
     </header>
