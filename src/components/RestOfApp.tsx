@@ -141,6 +141,22 @@ export function WhatYouGet({ onOpenUpsell }: { onOpenUpsell: () => void }) {
           </div>
         </div>
 
+        {/* Quebra de objeção */}
+        <div className="mt-10 bg-white rounded-2xl p-6 sm:p-8 border border-[#E2E5EA] max-w-2xl mx-auto">
+          <h3 className="text-lg sm:text-xl font-extrabold text-[#171717] mb-4 leading-snug">
+            "Mas eu posso fazer de graça com IA…"
+          </h3>
+          <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-3">
+            Pode, sim. Mas gerar uma imagem é só uma parte: ainda falta montar as artes, ajustar os textos e manter o mesmo visual no cardápio, nos posts e nas embalagens.
+          </p>
+          <p className="text-sm sm:text-base text-[#4B5563] leading-relaxed mb-4">
+            Com o pack, você parte de 120 modelos editáveis no Canva para personalizar com a sua marca, sem começar do zero.
+          </p>
+          <p className="text-sm sm:text-base font-bold text-[#E87516] leading-snug">
+            Você compra o trabalho pronto para poupar o seu tempo.
+          </p>
+        </div>
+
         {/* Aviso + CTA */}
         <p className="text-[11px] text-[#4B5563] mt-8 text-center max-w-lg mx-auto">
           Você recebe arquivos digitais. Impressão, materiais e embalagens físicas são contratados separadamente.
